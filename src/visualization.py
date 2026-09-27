@@ -91,6 +91,32 @@ def _fallback_generate(participants: pd.DataFrame, sampling: pd.DataFrame) -> li
         draw = ImageDraw.Draw(image)
         draw.text((margin, 25), title, fill="#1d3557")
         source = summary if grouping == "sampling_volume" else summarize_chambers(sampling)
+        if name == "sampling_volume_variability.png":
+            draw.line((margin, height - margin, width - 30, height - margin), fill="#333", width=2)
+            draw.line((margin, 50, margin, height - margin), fill="#333", width=2)
+            max_value = float(source[value_col].max()) * 1.15
+            groups = sorted(source[grouping].unique())
+            colors = {"TVOC": "#457b9d", "Toluene": "#e9c46a"}
+            for analyte, color in colors.items():
+                subset = source[source["analyte"] == analyte].sort_values(grouping)
+                points = []
+                for _, row in subset.iterrows():
+                    x_index = groups.index(row[grouping])
+                    x = margin + x_index / max(1, len(groups) - 1) * (width - margin - 40)
+                    y = height - margin - row[value_col] / max_value * (height - margin - 80)
+                    points.append((x, y))
+                draw.line(points, fill=color, width=4)
+                for x, y in points:
+                    draw.ellipse((x - 7, y - 7, x + 7, y + 7), fill=color)
+                draw.text((width - 220, 65 + list(colors).index(analyte) * 25), analyte, fill=color)
+            for i, group in enumerate(groups):
+                x = margin + i / max(1, len(groups) - 1) * (width - margin - 40)
+                draw.text((x - 10, height - margin + 8), str(group), fill="#555")
+            draw.text((width // 2 - 50, height - 35), "Sampling volume", fill="#333")
+            draw.text((10, height // 2), "Observed SD", fill="#333")
+            draw.text((width - 220, 35), "Analyte", fill="#333")
+            path = FIGURE_DIR / name; image.save(path); outputs.append(path)
+            continue
         max_value = float(source[value_col].max()) * 1.15
         groups = list(source[grouping].unique())
         for i, group in enumerate(groups):
