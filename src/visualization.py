@@ -117,6 +117,7 @@ def generate_figures() -> list[Path]:
         subset = participants[participants["analyte"] == analyte]
         fig, ax = plt.subplots(figsize=(9, 5))
         sns.scatterplot(data=subset, x="lab_id", y="z_score", hue="z_pass", palette={True: "#2a9d8f", False: "#e76f51"}, s=75, ax=ax)
+        ax.legend(title="Z-score criterion", loc="center left", bbox_to_anchor=(1.02, 0.5))
         ax.axhline(2, color="#e76f51", linestyle="--", label="z = ±2")
         ax.axhline(-2, color="#e76f51", linestyle="--")
         ax.set(title=f"{analyte} participant Z-scores", xlabel="Synthetic laboratory", ylabel="Z-score")
