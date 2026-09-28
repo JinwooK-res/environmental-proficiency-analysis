@@ -1,49 +1,48 @@
-# Synthetic Environmental Proficiency Analysis
+# VOC Proficiency Evaluation
 
-A reproducible, publication-safe demonstration of environmental laboratory proficiency-testing and QA/QC analysis using fully synthetic TVOC and toluene data.
+Python scripts for evaluating synthetic VOC proficiency-testing data and examining measurement variability.
 
-## Research Question
+The repository uses synthetic TVOC and toluene data and does not contain results from actual laboratories or proficiency-testing programs.
 
-**How can synthetic interlaboratory VOC emission results be analyzed and visualized to demonstrate proficiency-testing metrics and measurement variability?**
+## Overview
 
-## Synthetic Data Notice
+The repository includes two examples:
 
-All data in this repository are fully synthetic and generated from scratch.
+- proficiency evaluation using z-scores and relative error
+- variability analysis across chamber and sampling-volume conditions
 
-The repository does not include real participant data, institution names, sample IDs, actual 2025/2026 results, internal spreadsheets, notebooks, reports, or figures derived from real data.
+## Proficiency Evaluation
 
-A small number of failing cases are deliberately included only to demonstrate metric behavior.
+The synthetic proficiency dataset contains results for 20 laboratories and two analytes:
 
-The chamber and sampling-volume effects are artificial assumptions used to make variability patterns visible. They do not represent measured chamber behavior or any real laboratory process.
+- TVOC
+- Toluene
 
-Visualizations are independently designed for the synthetic demonstration and do not reproduce the presentation or result patterns of the original internal analyses.
+This gives 40 observations in total.
 
-This repository does not reproduce any specific official proficiency test and is not an official evaluation tool.
-
-## Analysis Design
-
-The proficiency dataset contains:
-
-- 20 synthetic laboratories
-- TVOC and toluene
-- one result per laboratory and analyte
-- 40 total observations
-
-Metrics:
+The following metrics are calculated:
 
 ```text
 z_score = (participant_result - assigned_value) / proficiency_sd
-error_pct = (participant_result - assigned_value) / assigned_value × 100
 
-z_pass     = |z_score| <= 2
-error_pass = |error_pct| <= 30%
+error_pct = (participant_result - assigned_value)
+            / assigned_value × 100
 ```
 
-These criteria are evaluated separately.
+For this example, the criteria are:
 
-## Synthetic Sampling Experiment
+```text
+|z_score| <= 2
+|error_pct| <= 30%
+```
 
-Balanced design:
+The two criteria are evaluated independently.
+
+## Sampling Variability
+
+A separate synthetic dataset is used to examine variability across chamber and sampling-volume conditions.
+
+The dataset contains:
 
 ```text
 5 chambers
@@ -53,34 +52,67 @@ Balanced design:
 = 250 observations
 ```
 
-Lower sampling volumes are assigned greater synthetic variability for demonstration purposes.
+Lower sampling volumes are simulated with greater measurement variability.
 
-## Visualizations
+## Outputs
 
-The project generates:
+The scripts generate:
 
-- TVOC Z-scores with ±2 limits
-- Toluene Z-scores with ±2 limits
-- error-rate plot with ±30% limits
-- paired TVOC vs. toluene results
-- sampling-volume variability
+- TVOC z-score plot
+- toluene z-score plot
+- relative-error plot
+- TVOC–toluene comparison
+- sampling-volume variability plot
 - chamber comparison
 
-## Reproduce
+## Repository Structure
 
-```powershell
+```text
+.
+├── data/
+├── figures/
+├── src/
+├── tests/
+├── README.md
+└── requirements.txt
+```
+
+## Usage
+
+Install the required packages:
+
+```bash
 python -m pip install -r requirements.txt
+```
+
+Generate the synthetic data:
+
+```bash
 python src/generate_synthetic_data.py
+```
+
+Generate the figures:
+
+```bash
 python src/visualization.py
+```
+
+Run the tests:
+
+```bash
 python -m pytest
 ```
 
+## Data
+
+All data included in this repository are synthetic.
+
+The simulated results, chamber effects, sampling-volume effects, and outlying observations are provided only for demonstration of the analysis workflow.
+
 ## Limitations
 
-This is a methodological demonstration, not an empirical interlaboratory study.
-
-Synthetic distributions, chamber effects, failing cases, and variability patterns should not be interpreted as evidence about real laboratories or official proficiency-testing programs.
+This repository is an analysis example and does not represent an actual interlaboratory study or an official proficiency-testing procedure.
 
 ## License
 
-MIT License. See [`LICENSE`](LICENSE).
+MIT License. See `LICENSE`.

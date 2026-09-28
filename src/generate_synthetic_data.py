@@ -1,4 +1,4 @@
-"""Generate deterministic, fully synthetic proficiency and sampling data."""
+"""Generate synthetic proficiency and sampling datasets."""
 
 from __future__ import annotations
 

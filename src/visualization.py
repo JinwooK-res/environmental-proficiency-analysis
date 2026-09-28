@@ -1,4 +1,4 @@
-"""Generate publication-safe synthetic demonstration figures."""
+"""Generate figures from the synthetic VOC datasets."""
 
 from __future__ import annotations
 

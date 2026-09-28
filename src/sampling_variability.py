@@ -1,4 +1,4 @@
-"""Analysis helpers for the synthetic chamber sampling experiment."""
+"""Analysis helpers for chamber sampling data."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ def summarize_sampling_variability(data: pd.DataFrame) -> pd.DataFrame:
 
 
 def summarize_chambers(data: pd.DataFrame) -> pd.DataFrame:
-    """Summarize chamber means for the synthetic experiment."""
+    """Summarize chamber means."""
     return (
         data.groupby(["analyte", "chamber"], as_index=False)
         .agg(mean_value=("measured_value", "mean"), sd_value=("measured_value", "std"), n=("measured_value", "size"))

@@ -1,1 +1,1 @@
-"""Synthetic environmental proficiency analysis package."""
+"""VOC proficiency evaluation package."""
